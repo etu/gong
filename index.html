@@ -1,66 +1,61 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gong — Play a Gong</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header>
-  <h1>Gong</h1>
-    <div id="next-global-wrap">
-      <label>Next</label>
-      <div id="auto-next-global">—</div>
-      <div id="engage-wrap">
-        <button id="engage-button">Engage</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gong - Play a Gong</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Gong</h1>
+      <div id="next-global-wrap">
+        <label>Next</label>
+        <div id="auto-next-global">—</div>
+        <div id="engage-wrap">
+          <button id="engage-button">Engage</button>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <details id="settings" class="settings">
-      <summary>Settings</summary>
-      <div class="settings-row">
-        <button id="test-button" aria-label="Test strike">Test</button>
-      </div>
+    <main>
+      <details id="settings" class="settings">
+        <summary>Settings</summary>
+        <div class="settings-row">
+          <button id="test-button" aria-label="Test strike">Test</button>
+        </div>
 
-      <div class="controls">
-        <label for="volume">Volume</label>
-        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6">
+        <div class="controls">
+          <label for="volume">Volume</label>
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6">
 
-        <label for="tone">Tone</label>
-        <select id="tone">
-          <option value="100">Low</option>
-          <option value="150" selected>Medium</option>
-          <option value="220">High</option>
-        </select>
+          <label for="tone">Tone</label>
+          <select id="tone">
+            <option value="100">Low</option>
+            <option value="150" selected>Medium</option>
+            <option value="220">High</option>
+          </select>
 
-        <label for="dampen">Dampen</label>
-        <input id="dampen" type="range" min="0.2" max="3" step="0.05" value="1.4">
-      </div>
+          <label for="dampen">Dampen</label>
+          <input id="dampen" type="range" min="0.2" max="3" step="0.05" value="1.4">
+        </div>
 
-      <div class="controls auto">
-        <label for="auto-toggle">Auto strike</label>
-        <input id="auto-toggle" type="checkbox">
+        <div class="controls auto">
+          <label for="auto-toggle">Auto strike</label>
+          <input id="auto-toggle" type="checkbox">
 
-        <label for="auto-lower">Min (s)</label>
-        <input id="auto-lower" type="number" min="1" step="1" value="5">
+          <label for="auto-lower">Min (s)</label>
+          <input id="auto-lower" type="number" min="1" step="1" value="5">
 
-        <label for="auto-upper">Max (s)</label>
-        <input id="auto-upper" type="number" min="1" step="1" value="10">
+          <label for="auto-upper">Max (s)</label>
+          <input id="auto-upper" type="number" min="1" step="1" value="10">
 
-        <label for="auto-next">Next (s)</label>
-        <output id="auto-next">—</output>
-      </div>
+          <label for="auto-next">Next (s)</label>
+          <output id="auto-next">—</output>
+        </div>
+      </details>
+    </main>
 
-      <p class="hint">Tip: You can tap quickly; overlapping strikes are supported.</p>
-
-    </details>
-  </main>
-
-  
-
-  <script src="js/gong.js" defer></script>
-</body>
+    <script src="js/gong.js" defer></script>
+  </body>
 </html>
