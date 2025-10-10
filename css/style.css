@@ -54,6 +54,23 @@ header p {
     box-shadow: 0 8px 30px rgba(245, 158, 11, 0.18);
 }
 
+#test-button {
+    appearance: none;
+    border: 0;
+    background: linear-gradient(180deg,var(--accent),#ffb84d);
+    color:#0b1220; padding:1.2rem 2rem; border-radius:10px; font-weight:700; cursor:pointer; font-size:1rem;
+    box-shadow:0 6px 22px rgba(245,158,11,0.14);
+}
+
+#next-global-wrap{ display:flex; gap:.5rem; align-items:center; margin-top:.6rem }
+#auto-next-global{ background:var(--glass); padding:.4rem .7rem; border-radius:8px; color:var(--accent); font-weight:700 }
+
+.settings{ margin-top:1rem; background:rgba(255,255,255,0.02); padding:1rem; border-radius:10px }
+.settings summary{ cursor:pointer; font-weight:600; margin-bottom:.5rem }
+
+.settings-row{ display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem }
+
+
 .controls {
     display: flex;
     gap: 1rem;

@@ -9,42 +9,52 @@
 <body>
   <header>
     <h1>Gong</h1>
-    <p>Strike the gong with the button, Space, or Enter. Adjust volume and tone below.</p>
+    <p>Strike the gong with the Test button, Space, or Enter.</p>
+    <div id="next-global-wrap">
+      <label>Next</label>
+      <div id="auto-next-global">—</div>
+    </div>
   </header>
 
   <main>
-    <button id="gong-button" aria-label="Strike the gong">Strike</button>
+    <details id="settings" class="settings">
+      <summary>Settings</summary>
+      <div class="settings-row">
+        <button id="test-button" aria-label="Test strike">Test</button>
+      </div>
 
-    <div class="controls">
-      <label for="volume">Volume</label>
-      <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6">
+      <div class="controls">
+        <label for="volume">Volume</label>
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6">
 
-      <label for="tone">Tone</label>
-      <select id="tone">
-        <option value="100">Low</option>
-        <option value="150" selected>Medium</option>
-        <option value="220">High</option>
-      </select>
+        <label for="tone">Tone</label>
+        <select id="tone">
+          <option value="100">Low</option>
+          <option value="150" selected>Medium</option>
+          <option value="220">High</option>
+        </select>
 
-      <label for="dampen">Dampen</label>
-      <input id="dampen" type="range" min="0.2" max="3" step="0.05" value="1.4">
-    </div>
+        <label for="dampen">Dampen</label>
+        <input id="dampen" type="range" min="0.2" max="3" step="0.05" value="1.4">
+      </div>
 
-    <div class="controls auto">
-      <label for="auto-toggle">Auto strike</label>
-      <input id="auto-toggle" type="checkbox">
+      <div class="controls auto">
+        <label for="auto-toggle">Auto strike</label>
+        <input id="auto-toggle" type="checkbox">
 
-      <label for="auto-lower">Min (s)</label>
-      <input id="auto-lower" type="number" min="1" step="1" value="5">
+        <label for="auto-lower">Min (s)</label>
+        <input id="auto-lower" type="number" min="1" step="1" value="5">
 
-      <label for="auto-upper">Max (s)</label>
-      <input id="auto-upper" type="number" min="1" step="1" value="10">
+        <label for="auto-upper">Max (s)</label>
+        <input id="auto-upper" type="number" min="1" step="1" value="10">
 
-      <label for="auto-next">Next (s)</label>
-      <output id="auto-next">—</output>
-    </div>
+        <label for="auto-next">Next (s)</label>
+        <output id="auto-next">—</output>
+      </div>
 
-    <p class="hint">Tip: You can tap quickly; overlapping strikes are supported.</p>
+      <p class="hint">Tip: You can tap quickly; overlapping strikes are supported.</p>
+
+    </details>
   </main>
 
   <footer>

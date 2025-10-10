@@ -66,10 +66,11 @@
     }
 
     // Wire up UI
-    const button = document.getElementById('gong-button');
+    const button = document.getElementById('test-button') || document.getElementById('gong-button');
     const volume = document.getElementById('volume');
     const tone = document.getElementById('tone');
     const dampen = document.getElementById('dampen');
+    const nextGlobal = document.getElementById('auto-next-global');
 
     function readSettings() {
         return { volume: Number(volume.value), tone: Number(tone.value), dampen: Number(dampen.value) };
@@ -142,16 +143,18 @@
         stopNextTicker();
         if (!nextOutput) return;
         nextTicker = setInterval(() => {
-            if (!nextTimeoutAt) { nextOutput.value = '—'; nextOutput.textContent = '—'; return; }
+            if (!nextTimeoutAt) { nextOutput.value = '—'; nextOutput.textContent = '—'; if(nextGlobal) nextGlobal.textContent = '—'; return; }
             const remaining = Math.max(0, nextTimeoutAt - Date.now());
             const txt = Math.ceil(remaining / 1000).toString();
             nextOutput.value = txt;
             nextOutput.textContent = txt;
+            if(nextGlobal) nextGlobal.textContent = txt;
         }, 200);
     }
     function stopNextTicker() {
         if (nextTicker) { clearInterval(nextTicker); nextTicker = null; }
         if (nextOutput) { nextOutput.value = '—'; nextOutput.textContent = '—'; }
+        if (nextGlobal) nextGlobal.textContent = '—';
     }
 
     function parseBounds() {
