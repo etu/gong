@@ -1,5 +1,10 @@
 # GONG
 
+> [!NOTE]
+> What is this? It plays a gong at random intervals.
+>
+> But why? Because it can.
+
 A tiny static site that synthesizes a gong sound using the Web Audio API.
 
 Files added:
