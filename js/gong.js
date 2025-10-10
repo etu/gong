@@ -105,10 +105,7 @@
             if (data.autoLower != null) autoLower.value = String(parseInt(data.autoLower, 10) || 1);
             if (data.autoUpper != null) autoUpper.value = String(parseInt(data.autoUpper, 10) || 1);
             enforceBounds();
-            if (autoToggle && data.autoEnabled) {
-                // set checked but don't start until after load completes
-                autoToggle.checked = true;
-            }
+            // Do NOT restore autoEnabled from storage because autoplay requires a user gesture.
         } catch (e) { /* ignore parse errors */ }
     }
 
@@ -143,12 +140,12 @@
         stopNextTicker();
         if (!nextOutput) return;
         nextTicker = setInterval(() => {
-            if (!nextTimeoutAt) { nextOutput.value = '—'; nextOutput.textContent = '—'; if(nextGlobal) nextGlobal.textContent = '—'; return; }
+            if (!nextTimeoutAt) { nextOutput.value = '—'; nextOutput.textContent = '—'; if (nextGlobal) nextGlobal.textContent = '—'; return; }
             const remaining = Math.max(0, nextTimeoutAt - Date.now());
             const txt = Math.ceil(remaining / 1000).toString();
             nextOutput.value = txt;
             nextOutput.textContent = txt;
-            if(nextGlobal) nextGlobal.textContent = txt;
+            if (nextGlobal) nextGlobal.textContent = txt;
         }, 200);
     }
     function stopNextTicker() {
@@ -258,6 +255,19 @@
     if (autoToggle && autoToggle.checked) {
         // start scheduling according to saved bounds
         scheduleNext();
+    }
+
+    // Engage button: enables auto mode (without persisting) and starts scheduler
+    const engage = document.getElementById('engage-button');
+    if (engage) {
+        engage.addEventListener('click', () => {
+            if (!autoToggle) return;
+            if (!autoToggle.checked) {
+                autoToggle.checked = true;
+                // Do not call saveSettings() — we purposely don't remember autoEnabled
+                startAuto();
+            }
+        });
     }
 
     // ...existing code...
