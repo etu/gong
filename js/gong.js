@@ -109,15 +109,6 @@
         } catch (e) { /* ignore parse errors */ }
     }
 
-    // Keyboard: Space or Enter
-    window.addEventListener('keydown', (e) => {
-        if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {
-            // prevent scrolling on space
-            if (e.code === 'Space') e.preventDefault();
-            playGong(readSettings());
-        }
-    });
-
     // unlock audio on first user gesture on some mobile/desktop browsers
     function unlock() {
         ensureCtx();
