@@ -25,4 +25,16 @@ python3 -m http.server 8000
 Notes
 
 - The gong is synthesized — no audio files are bundled.
-- If audio doesn't play on first interaction, click/tap the page to unlock audio on some mobile browsers.
+- If audio doesn't play on first interaction, click/tap the page to
+  unlock audio on some mobile browsers.
+
+Nix flake
+
+This repository includes a `flake.nix` with a convenient `defaultApp` and `devShell`.
+
+- Start the dev server with:
+
+```fish
+# run this from the project root and open http://localhost:8000
+nix run
+```
