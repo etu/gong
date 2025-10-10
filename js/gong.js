@@ -77,6 +77,40 @@
 
     button.addEventListener('click', () => playGong(readSettings()));
 
+    // Persistent settings (localStorage)
+    const STORAGE_KEY = 'gong:settings:v1';
+    function saveSettings() {
+        try {
+            const data = {
+                volume: Number(volume.value),
+                tone: Number(tone.value),
+                dampen: Number(dampen.value),
+                autoEnabled: !!(autoToggle && autoToggle.checked),
+                autoLower: parseInt(autoLower.value, 10) || 1,
+                autoUpper: parseInt(autoUpper.value, 10) || 1
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) { /* ignore storage errors */ }
+    }
+
+    function loadSettings() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            if (data.volume != null) volume.value = Number(data.volume);
+            if (data.tone != null) tone.value = String(data.tone);
+            if (data.dampen != null) dampen.value = Number(data.dampen);
+            if (data.autoLower != null) autoLower.value = String(parseInt(data.autoLower, 10) || 1);
+            if (data.autoUpper != null) autoUpper.value = String(parseInt(data.autoUpper, 10) || 1);
+            enforceBounds();
+            if (autoToggle && data.autoEnabled) {
+                // set checked but don't start until after load completes
+                autoToggle.checked = true;
+            }
+        } catch (e) { /* ignore parse errors */ }
+    }
+
     // Keyboard: Space or Enter
     window.addEventListener('keydown', (e) => {
         if (e.code === 'Space' || e.key === ' ' || e.key === 'Enter') {
@@ -102,6 +136,24 @@
     let nextTimeoutAt = null; // timestamp (Date.now()) when next timeout will fire
     let nextTicker = null; // interval id for updating the display
 
+    // Next wait display (defined early so scheduleNext can call startNextTicker safely)
+    const nextOutput = document.getElementById('auto-next');
+    function startNextTicker() {
+        stopNextTicker();
+        if (!nextOutput) return;
+        nextTicker = setInterval(() => {
+            if (!nextTimeoutAt) { nextOutput.value = '—'; nextOutput.textContent = '—'; return; }
+            const remaining = Math.max(0, nextTimeoutAt - Date.now());
+            const txt = Math.ceil(remaining / 1000).toString();
+            nextOutput.value = txt;
+            nextOutput.textContent = txt;
+        }, 200);
+    }
+    function stopNextTicker() {
+        if (nextTicker) { clearInterval(nextTicker); nextTicker = null; }
+        if (nextOutput) { nextOutput.value = '—'; nextOutput.textContent = '—'; }
+    }
+
     function parseBounds() {
         // parse integer seconds
         const a = parseInt(autoLower.value, 10) || 1;
@@ -113,6 +165,23 @@
 
     function scheduleNext() {
         const { min, max } = parseBounds();
+        // Ensure we have an AudioContext; if it's suspended due to autoplay policies,
+        // wait for a user gesture to resume audio before scheduling the first strike.
+        ensureCtx();
+        if (ctx && ctx.state === 'suspended') {
+            // show a hint in the Next display
+            if (nextOutput) { nextOutput.value = 'tap'; nextOutput.textContent = 'tap'; }
+            const onUser = () => {
+                window.removeEventListener('pointerdown', onUser);
+                // resume may require a user gesture; resume then schedule
+                ctx.resume().finally(() => {
+                    // schedule after resume
+                    scheduleNext();
+                });
+            };
+            window.addEventListener('pointerdown', onUser);
+            return;
+        }
         // choose integer number of seconds uniformly in [min, max]
         const delay = Math.floor(min + Math.random() * (max - min + 1));
         // clear previous timer just in case
@@ -145,6 +214,7 @@
     if (autoToggle) {
         autoToggle.addEventListener('change', () => {
             if (autoToggle.checked) startAuto(); else stopAuto();
+            saveSettings();
         });
     }
 
@@ -170,23 +240,23 @@
                 stopAuto();
                 scheduleNext();
             }
+            saveSettings();
         });
     });
 
-    // Next wait display
-    const nextOutput = document.getElementById('auto-next');
-    function startNextTicker() {
-        stopNextTicker();
-        if (!nextOutput) return;
-        nextTicker = setInterval(() => {
-            if (!nextTimeoutAt) { nextOutput.value = '—'; return; }
-            const remaining = Math.max(0, nextTimeoutAt - Date.now());
-            nextOutput.value = Math.ceil(remaining / 1000).toString();
-        }, 200);
+    // Save volume/tone/dampen changes
+    [volume, tone, dampen].forEach(el => {
+        if (!el) return;
+        el.addEventListener('input', () => saveSettings());
+    });
+
+    // Load saved settings and apply on startup
+    loadSettings();
+    if (autoToggle && autoToggle.checked) {
+        // start scheduling according to saved bounds
+        scheduleNext();
     }
-    function stopNextTicker() {
-        if (nextTicker) { clearInterval(nextTicker); nextTicker = null; }
-        if (nextOutput) nextOutput.value = '—';
-    }
+
+    // ...existing code...
 
 })();
