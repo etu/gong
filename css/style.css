@@ -1,0 +1,94 @@
+:root {
+    --bg: #0f1720;
+    --card: #0b1220;
+    --accent: #f59e0b;
+    --muted: #9aa4b2;
+    --glass: rgba(255, 255, 255, 0.03);
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--bg), #071026);
+    color: #e6eef8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+main {
+    width: 720px;
+    max-width: 96vw
+}
+
+header h1 {
+    margin: 0 0 .25rem 0;
+    font-size: 2rem
+}
+
+header p {
+    margin: 0 0 1rem 0;
+    color: var(--muted)
+}
+
+#gong-button {
+    appearance: none;
+    border: 0;
+    background: linear-gradient(180deg, var(--accent), #ffb84d);
+    color: #0b1220;
+    padding: 2rem 3.2rem;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(245, 158, 11, 0.18);
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem
+}
+
+.controls label {
+    font-size: .9rem;
+    color: var(--muted)
+}
+
+.controls input[type=range] {
+    width: 160px
+}
+
+.hint {
+    color: var(--muted);
+    margin-top: .8rem
+}
+
+footer {
+    margin-top: 1.2rem;
+    color: var(--muted);
+    font-size: .85rem
+}
+
+@media (max-width:560px) {
+    #gong-button {
+        width: 100%;
+        padding: 1.2rem
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch
+    }
+}

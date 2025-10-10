@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gong — Play a Gong</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Gong</h1>
+    <p>Strike the gong with the button, Space, or Enter. Adjust volume and tone below.</p>
+  </header>
+
+  <main>
+    <button id="gong-button" aria-label="Strike the gong">Strike</button>
+
+    <div class="controls">
+      <label for="volume">Volume</label>
+      <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6">
+
+      <label for="tone">Tone</label>
+      <select id="tone">
+        <option value="100">Low</option>
+        <option value="150" selected>Medium</option>
+        <option value="220">High</option>
+      </select>
+
+      <label for="dampen">Dampen</label>
+      <input id="dampen" type="range" min="0.2" max="3" step="0.05" value="1.4">
+    </div>
+
+    <p class="hint">Tip: You can tap quickly; overlapping strikes are supported.</p>
+  </main>
+
+  <footer>
+    <small>Built with Web Audio — no external files required.</small>
+  </footer>
+
+  <script src="js/gong.js" defer></script>
+</body>
+</html>
