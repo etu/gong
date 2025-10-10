@@ -30,6 +30,20 @@
       <input id="dampen" type="range" min="0.2" max="3" step="0.05" value="1.4">
     </div>
 
+    <div class="controls auto">
+      <label for="auto-toggle">Auto strike</label>
+      <input id="auto-toggle" type="checkbox">
+
+      <label for="auto-lower">Min (s)</label>
+      <input id="auto-lower" type="number" min="1" step="1" value="5">
+
+      <label for="auto-upper">Max (s)</label>
+      <input id="auto-upper" type="number" min="1" step="1" value="10">
+
+      <label for="auto-next">Next (s)</label>
+      <output id="auto-next">—</output>
+    </div>
+
     <p class="hint">Tip: You can tap quickly; overlapping strikes are supported.</p>
   </main>
 

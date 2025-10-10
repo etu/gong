@@ -93,4 +93,100 @@
         window.removeEventListener('pointerdown', unlock);
     }
     window.addEventListener('pointerdown', unlock);
+
+    // Auto-strike scheduler
+    const autoToggle = document.getElementById('auto-toggle');
+    const autoLower = document.getElementById('auto-lower');
+    const autoUpper = document.getElementById('auto-upper');
+    let autoTimer = null;
+    let nextTimeoutAt = null; // timestamp (Date.now()) when next timeout will fire
+    let nextTicker = null; // interval id for updating the display
+
+    function parseBounds() {
+        // parse integer seconds
+        const a = parseInt(autoLower.value, 10) || 1;
+        const b = parseInt(autoUpper.value, 10) || 1;
+        const min = Math.max(1, Math.min(a, b));
+        const max = Math.max(min, Math.max(a, b));
+        return { min, max };
+    }
+
+    function scheduleNext() {
+        const { min, max } = parseBounds();
+        // choose integer number of seconds uniformly in [min, max]
+        const delay = Math.floor(min + Math.random() * (max - min + 1));
+        // clear previous timer just in case
+        if (autoTimer) clearTimeout(autoTimer);
+        const ms = Math.round(delay * 1000);
+        nextTimeoutAt = Date.now() + ms;
+        autoTimer = setTimeout(() => {
+            playGong(readSettings());
+            // schedule subsequent strike
+            scheduleNext();
+        }, ms);
+        startNextTicker();
+    }
+
+    function startAuto() {
+        if (autoTimer) return;
+        // schedule first strike (no immediate strike)
+        scheduleNext();
+    }
+
+    function stopAuto() {
+        if (autoTimer) {
+            clearTimeout(autoTimer);
+            autoTimer = null;
+            nextTimeoutAt = null;
+            stopNextTicker();
+        }
+    }
+
+    if (autoToggle) {
+        autoToggle.addEventListener('change', () => {
+            if (autoToggle.checked) startAuto(); else stopAuto();
+        });
+    }
+
+    // If bounds change while running, restart scheduling to pick new intervals
+    function enforceBounds() {
+        // ensure autoUpper is not less than autoLower
+        const minVal = parseInt(autoLower.value, 10) || 1;
+        let maxVal = parseInt(autoUpper.value, 10) || 1;
+        if (maxVal < minVal) {
+            maxVal = minVal;
+            autoUpper.value = String(maxVal);
+        }
+        // keep the input's min attribute in sync
+        autoUpper.min = String(minVal);
+    }
+
+    [autoLower, autoUpper].forEach(el => {
+        if (!el) return;
+        el.addEventListener('input', () => {
+            enforceBounds();
+            if (autoToggle && autoToggle.checked) {
+                // restart with new bounds
+                stopAuto();
+                scheduleNext();
+            }
+        });
+    });
+
+    // Next wait display
+    const nextOutput = document.getElementById('auto-next');
+    function startNextTicker() {
+        stopNextTicker();
+        if (!nextOutput) return;
+        nextTicker = setInterval(() => {
+            if (!nextTimeoutAt) { nextOutput.value = '—'; return; }
+            const remaining = Math.max(0, nextTimeoutAt - Date.now());
+            nextOutput.value = Math.ceil(remaining / 1000).toString();
+        }, 200);
+    }
+    function stopNextTicker() {
+        if (nextTicker) { clearInterval(nextTicker); nextTicker = null; }
+        if (nextOutput) nextOutput.value = '—';
+    }
+
 })();
