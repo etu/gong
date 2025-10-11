@@ -1,0 +1,9 @@
+{
+    "name": "GONG",
+    "short_name": "GONG",
+    "start_url": "/gong/",
+    "scope": "/gong/",
+    "display": "standalone",
+    "background_color": "#0f1720",
+    "theme_color": "#0f1720"
+}
