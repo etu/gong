@@ -1,146 +1,121 @@
 :root {
-    --bg: #0f1720;
+    --fg: #e6eef8;
+    --bg: linear-gradient(180deg, #0f1720, #1c2f61);
     --card: #0b1220;
-    --accent: #f59e0b;
+    --accent-bg: linear-gradient(180deg, #f59e0b, #ffb84d);
+    --accent-fg: #0b1220;
     --muted: #9aa4b2;
     --glass: rgba(255, 255, 255, 0.03);
 }
 
 * {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 html,
 body {
-    height: 100%
+    height: 100%;
 }
 
 body {
     margin: 0;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg, var(--bg), #071026);
-    color: #e6eef8;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 3rem;
 }
 
 main {
-    width: 720px;
-    max-width: 96vw
+    width: 260px;
+    max-width: 96vw;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
-header h1 {
-    margin: 0 0 .25rem 0;
-    font-size: 2rem
-}
-
-header p {
-    margin: 0 0 1rem 0;
-    color: var(--muted)
-}
-
-#gong-button {
-    appearance: none;
+main #engage-wrap #engage-button {
+    background: var(--accent-bg);
+    color: var(--accent-fg);
     border: 0;
-    background: linear-gradient(180deg, var(--accent), #ffb84d);
-    color: #0b1220;
-    padding: 2rem 3.2rem;
-    border-radius: 14px;
-    font-weight: 700;
-    font-size: 1.25rem;
-    cursor: pointer;
-    box-shadow: 0 8px 30px rgba(245, 158, 11, 0.18);
-}
-
-#test-button {
-    appearance: none;
-    border: 0;
-    background: linear-gradient(180deg, var(--accent), #ffb84d);
-    color: #0b1220;
     padding: 1.2rem 2rem;
     border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 6px 22px rgba(245, 158, 11, 0.14);
 }
 
-#next-global-wrap {
+main #engage-wrap #engage-button.engaged {
+    filter: saturate(0.85) brightness(0.95);
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.35) inset;
+}
+
+main #next-global-wrap {
     display: flex;
-    gap: .5rem;
     align-items: center;
-    margin-top: .6rem
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
-#auto-next-global {
+main #next-global-wrap #auto-next-global {
     background: var(--glass);
     padding: .4rem .7rem;
     border-radius: 8px;
     color: var(--accent);
-    font-weight: 700
+    font-weight: 700;
 }
 
-.settings {
+aside .settings {
     margin-top: 1rem;
     background: rgba(255, 255, 255, 0.02);
     padding: 1rem;
-    border-radius: 10px
+    border-radius: 10px;
 }
 
-.settings summary {
+aside .settings summary {
     cursor: pointer;
     font-weight: 600;
-    margin-bottom: .5rem
+    margin-bottom: .5rem;
 }
 
-.settings-row {
+aside .settings-row {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 0.75rem
+    margin-bottom: 0.75rem;
 }
 
-#engage-wrap{ margin-left:12px }
-#engage-button{ background:var(--accent); color:#0b1220; border:0; padding:.6rem 1rem; border-radius:10px; font-weight:700; cursor:pointer }
+aside .settings-row.test-button {
+    justify-content: center;
+    margin-bottom: 1rem;
+}
 
+aside .settings-row.test-button #test-button {
+    background: var(--accent-bg);
+    color: var(--accent-fg);
+    border: 0;
+    padding: .6rem 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
 
-.controls {
+aside .controls {
     display: flex;
     gap: 1rem;
     align-items: center;
-    margin-top: 1rem
+    margin-top: 1rem;
 }
 
-.controls label {
+aside .controls label {
     font-size: .9rem;
-    color: var(--muted)
-}
-
-.controls input[type=range] {
-    width: 160px
-}
-
-.hint {
     color: var(--muted);
-    margin-top: .8rem
+    min-width: 140px;
 }
 
-footer {
-    margin-top: 1.2rem;
-    color: var(--muted);
-    font-size: .85rem
-}
-
-@media (max-width:560px) {
-    #gong-button {
-        width: 100%;
-        padding: 1.2rem
-    }
-
-    .controls {
-        flex-direction: column;
-        align-items: stretch
-    }
+aside .controls input[type="range"] {
+    width: 180px;
 }
