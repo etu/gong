@@ -101,11 +101,21 @@
     /** -----------------------------
      *  Settings (read/load/save)
      *  ----------------------------- */
-    const readUISettings = () => ({
-        volume: Number(els.volume?.value ?? 0.6),
-        tone: Number(els.tone?.value ?? 150),
-        dampen: Number(els.dampen?.value ?? 1.4),
-    });
+    const readUISettings = () => {
+        const volume = Number(els.volume?.value ?? 0.6);
+        const tone = Number(els.tone?.value ?? 150);
+
+        let dampenUi = Number(els.dampen?.value ?? 1.4);
+        if (els.dampen) {
+            const uiMin = Number(els.dampen.min ?? els.dampen.getAttribute('min') ?? 1.5);
+            const uiMax = Number(els.dampen.max ?? els.dampen.getAttribute('max') ?? 5);
+            dampenUi = Math.min(uiMax, Math.max(uiMin, dampenUi));
+            dampenUi = uiMax + uiMin - dampenUi;
+        }
+        const dampen = Number(dampenUi ?? 1.4);
+
+        return { volume, tone, dampen };
+    };
 
     const saveSettings = () => {
         try {
